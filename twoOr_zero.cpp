@@ -121,63 +121,33 @@ Node *input_tree()
 
     return root;
 }
-void level_order(Node *root)
+
+bool special_Binary(Node *root)
 {
-    if (root == NULL)
-    {
-        cout << "No Input";
-        return;
-    }
-    queue<Node *> que;
-    que.push(root);
-    while (!que.empty())
-    {
-        // 1. ber kore ana
-        Node *f = que.front();
-        que.pop();
-
-        // 2. Front er value diye jaa kaaj ase shob ekhane korte hobe
-        cout << f->value << " ";
-
-        // 3. Tar Child der que te rakha
-        if (f->left)
-            que.push(f->left);
-        if (f->right)
-            que.push(f->right);
-    }
-}
-
-int mx = 0;
-int count_Diameter(Node *root)
-{
-    if (root == NULL)
-    {
-        return 0;
-    }
-
-    int L = count_Diameter(root->left);
-    int R = count_Diameter(root->right);
-    int diameter = L + R;
-    mx = max(mx, diameter);
-    return max(L, R) + 1;
+    if (!root->left && !root->right)
+        return true;
+    if (!root->left || !root->right)
+        return false;
+    bool L = special_Binary(root->left);
+    bool R = special_Binary(root->right);
+    if (L == false || R == false)
+        return false;
+    return true;
 }
 int main()
 {
     Node *root = input_tree();
-    mx = 0;
-    int hieght = count_Diameter(root);
-    // int L = count_Diameter(root->left);
-    // int R = count_Diameter(root->right);
-    // int diameter = L + R;
-    cout << mx;
-
+    bool ans = special_Binary(root);
+    cout << ans;
     return 0;
 }
 
 /*
 input
-3 4 -1 -1 -1
+1 2 3 4 5 -1 -1 6 -1 -1 -1 -1 -1 and
+3 5 1 6 2 0 8 -1 -1 7 4 -1 -1 -1 -1 -1 -1
 
 output
-1
+false
+true
 */

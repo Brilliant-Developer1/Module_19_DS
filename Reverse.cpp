@@ -121,15 +121,16 @@ Node *input_tree()
 
     return root;
 }
-void level_order(Node *root)
+vector<int> level_order(Node *root)
 {
-    if (root == NULL)
-    {
-        cout << "No Input";
-        return;
-    }
+    vector<int> ans;
+    // if (root == NULL)
+    // {
+    //     return {};
+    // }
     queue<Node *> que;
-    que.push(root);
+    if (root)
+        que.push(root);
     while (!que.empty())
     {
         // 1. ber kore ana
@@ -137,7 +138,8 @@ void level_order(Node *root)
         que.pop();
 
         // 2. Front er value diye jaa kaaj ase shob ekhane korte hobe
-        cout << f->value << " ";
+        // cout << f->value << " ";
+        ans.push_back(f->value);
 
         // 3. Tar Child der que te rakha
         if (f->left)
@@ -145,39 +147,39 @@ void level_order(Node *root)
         if (f->right)
             que.push(f->right);
     }
+    return ans;
 }
 
-int mx = 0;
-int count_Diameter(Node *root)
-{
-    if (root == NULL)
-    {
-        return 0;
-    }
-
-    int L = count_Diameter(root->left);
-    int R = count_Diameter(root->right);
-    int diameter = L + R;
-    mx = max(mx, diameter);
-    return max(L, R) + 1;
-}
 int main()
 {
     Node *root = input_tree();
-    mx = 0;
-    int hieght = count_Diameter(root);
-    // int L = count_Diameter(root->left);
-    // int R = count_Diameter(root->right);
-    // int diameter = L + R;
-    cout << mx;
+    // vector<int> ans;
+    vector<int> res = level_order(root);
+
+    reverse(res.begin(), res.end());
+
+    for (int i = 0; i < res.size(); i++)
+    {
+        cout << res[i] << " ";
+    }
+
+    // for (int i = res.size() - 1; i >= 0; i--)
+    // {
+    //     ans.push_back(res[i]);
+    // }
+
+    // for (int i = 0; i < ans.size(); i++)
+    // {
+    //     cout << ans[i] << " ";
+    // }
 
     return 0;
 }
 
 /*
 input
-3 4 -1 -1 -1
+1 2 3 4 -1 5 6 -1 7 -1 -1 -1 -1 -1 -1
 
 output
-1
+7 6 5 4 3 2 1
 */
